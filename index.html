@@ -1,1 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biker</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#020b1e;height:100vh;overflow:hidden;font-family:Arial,sans-serif}
+#loading{position:fixed;inset:0;background:#020b1e;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;color:#7ec8ff}
+.spin{width:38px;height:38px;border:2px solid rgba(120,200,255,.2);border-top:2px solid #7ec8ff;border-radius:50%;animation:s 1s linear infinite;margin-bottom:12px}
+@keyframes s{to{transform:rotate(360deg)}}
+#intro{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0a1f44,#020b1e)}
+.card{width:330px;background:#102a5a;border-radius:22px;padding:20px;text-align:center;border:1px solid #2a7fff;box-shadow:0 0 35px #0080ff}
+.card h1{color:#fff;font-size:24px;line-height:1.1;text-shadow:0 0 10px #00aaff}
+.bunny{font-size:80px;margin:10px 0}
+.btn{background:linear-gradient(90deg,#00aaff,#0066ff);color:#fff;border:none;padding:11px 32px;border-radius:999px;box-shadow:0 0 18px #00aaff;cursor:pointer;margin-top:10px}
+#galaxy{position:fixed;inset:0;display:none;background:#000}
+canvas{position:absolute;inset:0}
+.title{position:absolute;top:6%;left:50%;transform:translateX(-50%);font-size:28px;color:#7ec8ff;text-shadow:0 0 20px #00aaff;z-index:5;font-weight:bold;text-align:center;width:90%}
+.orbit{position:absolute;top:50%;left:50%;width:560px;height:560px;transform:translate(-50%,-50%);transform-style:preserve-3d;animation:r 22s linear infinite}
+@keyframes r{to{transform:translate(-50%,-50%) rotateY(360deg)}}
+.moto{position:absolute;top:50%;left:50%;width:200px;transform-style:preserve-3d;background:#111;border-radius:12px;overflow:hidden;box-shadow:0 0 18px #00ccff;border:1.5px solid #00aaff}
+.moto img{width:100%;height:130px;object-fit:cover;display:block}
+.ring{position:absolute;top:50%;left:50%;width:900px;height:900px;transform:translate(-50%,-50%);animation:r2 60s linear infinite reverse}
+@keyframes r2{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.txt{position:absolute;left:50%;top:0;color:#7ec8ff;font-size:11px;white-space:nowrap;transform-origin:0 450px;text-shadow:0 0 6px #00aaff}
+</style>
+</head>
+<body>
+<div id="loading"><div class="spin"></div><div style="font-size:12px">Cargando ...</div></div>
+<div id="intro">
+<div class="card">
+<div style="font-size:9px;letter-spacing:4px;color:#7ec8ff">Por que tu si entendiste la fokin vibra</div>
+<h1>Eres el mejor<br>saaaam</h1>
+<div class="bunny">🏍️💙</div>
+<button class="btn" id="btn">DESCUBRIR ♡</button>
+</div>
+</div>
+<div id="galaxy">
+<canvas id="c"></canvas>
+<div class="title">Para tiii🥹❤️‍🩹<br><span style="font-size:13px;opacity:.8">Gracias por permitirme formar parte de tu vida</span></div>
+<div class="orbit" id="orbit"></div>
+<div class="ring" id="ring"></div>
+<audio id="musica" loop>
+<source src="c:\xampp\htdocs\practicas\aiweb\practica1\WhatsApp Audio 2026-10-18 at 3.53.53 PM.mpeg" type="audio/mpeg">
+</audio>
+</div>
+<script>
+setTimeout(()=>{document.getElementById('loading').style.display='none';document.getElementById('intro').style.display='flex';},1200);
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+function rs(){canvas.width=innerWidth;canvas.height=innerHeight}rs();onresize=rs;
+let stars=[];for(let i=0;i<400;i++)stars.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+0.3});
+(function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let s of stars){ctx.fillStyle='rgba(100,190,255,0.9)';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.28);ctx.fill()}requestAnimationFrame(loop)})();
 
+// 9 IMAGENES YA ARREGLADAS - la 9na era la que fallaba
+const imgs=[
+"https://www.iamabiker.com/wp-content/uploads/2023/08/2024-KTM-Duke-390.jpg",
+"https://tse3.mm.bing.net/th/id/OIP.MgYBxYFYIN3whQC2RlbBhwHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://wallpapers.com/images/hd/dipperand-mabel-pines-gravity-falls-8nim68nui1gix7x2.jpg",
+"https://tse3.mm.bing.net/th/id/OIP.D7f5-R3pAMGjKe9l94nH6QHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://tse2.mm.bing.net/th/id/OIP.ORjsMADT1JgDTxmdnpKUXQHaD4?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://th.bing.com/th/id/R.cb6f963c8b91d3ce151c85c5caca3b53?rik=ocB1aWL5bwnU9w&riu=http%3a%2f%2fblog.quikr.com%2fwp-content%2fuploads%2f2015%2f10%2f2016-Honda-CB-250-Twister-front-view.jpg&ehk=tVeGbmfNaDfVwhB%2fLM7ji0gxA9MVs6QPC9I1HczVQag%3d&risl=&pid=ImgRaw&r=0",
+"https://www.paramountshop.com/cdn/shop/files/spongebob-squarepants-patrick-and-spongebob-life-size-standee-653960.jpg?v=1733556875",
+"https://nzmotos.cl/cdn/shop/files/Pulsar-N250-negro-7-b.png?v=1690211588",
+"foto.jpg",
+
+];
+
+const orbit=document.getElementById('orbit');
+for(let i=0;i<9;i++){
+let d=document.createElement('div');d.className='moto';
+d.style.transform=`translate(-50%,-50%) rotateY(${(i/9)*360}deg) translateZ(260px) rotateY(-${(i/9)*360}deg)`;
+d.innerHTML=`<img src="${imgs[i]}" onerror="this.src='https://cdn.pixabay.com/photo/2016/02/19/15/46/motorcycle-1210550_1280.jpg'">`;
+orbit.appendChild(d);
+}
+const phrases=["Te quiero mucho Saam","Eres un gran niño🥹","Gracias por todo","Estoy muy orgullosa de ti❤️","Te aprecio mucho","No hay nada malo en ti","Sabes que te aprecio bastante","Mi mejor amigo","My Biker favorito","Eres una gran personita🥹","Confio mucho en ti Saam🥰","Eres un gran amigo Saaaam","Se que vas a obtener todo lo que quieras"];
+const ring=document.getElementById('ring');
+phrases.forEach((t,i)=>{let el=document.createElement('div');el.className='txt';el.style.transform=`rotate(${(i/phrases.length)*360}deg)`;el.innerText=t;ring.appendChild(el);});
+
+document.getElementById('btn').onclick=()=>{
+  document.getElementById('intro').style.display='none';
+  document.getElementById('galaxy').style.display='block';
+  document.getElementById('musica').play().catch(()=>{});
+};
+</script>
+</body>
+</html>
